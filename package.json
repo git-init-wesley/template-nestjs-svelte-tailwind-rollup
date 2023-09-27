@@ -6,7 +6,7 @@
   "private": true,
   "license": "CC BY-NC-SA 4.0",
   "scripts": {
-    "build": "rollup -c && routify export",
+    "build": "rollup -c",
     "build:api": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -24,8 +24,8 @@
     "test:e2e:watch": "jest --config ./test/jest-e2e.json --watchAll",
     "test:all": "jest --config ./test/jest-all.json",
     "test:all:watch": "jest --config ./test/jest-all.json --watchAll",
-    "tailwind": "npx tailwindcss -o ./public/build/tailwind.css --minify",
-    "tailwind:watch": "npx tailwindcss -o ./public/build/tailwind.css --watch --minify"
+    "tailwind": "npx tailwindcss -i ./src/svelte/app.css -o ./public/build/tailwind.css --minify",
+    "tailwind:watch": "npx tailwindcss -i ./src/svelte/app.css -o ./public/build/tailwind.css --watch --minify"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -54,6 +54,7 @@
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "flowbite-svelte": "^0.44.17",
     "jest": "^29.5.0",
     "prettier": "^3.0.0",
     "rollup": "^2.79.1",

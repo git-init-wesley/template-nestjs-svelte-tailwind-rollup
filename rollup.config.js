@@ -17,6 +17,7 @@ export default {
   },
   plugins: [
     svelte({
+      preprocess: [],
       emitCss: false,
       compilerOptions: {
         dev: !production,
@@ -27,6 +28,8 @@ export default {
       dedupe: ['svelte'],
     }),
     commonjs(),
+    tailwind(),
+    production && buildApi(),
     !production && serve(),
     !production && livereload('public'),
     production && terser(),
@@ -35,6 +38,28 @@ export default {
     clearScreen: false,
   },
 };
+
+function tailwind() {
+  return {
+    writeBundle() {
+      child_process.spawn('npm', ['run', 'tailwind'], {
+        stdio: ['ignore', 'inherit', 'inherit'],
+        shell: true,
+      });
+    },
+  };
+}
+
+function buildApi() {
+  return {
+    writeBundle() {
+      child_process.spawn('npm', ['run', 'build:api'], {
+        stdio: ['ignore', 'inherit', 'inherit'],
+        shell: true,
+      });
+    },
+  };
+}
 
 function serve() {
   let server;
@@ -45,10 +70,6 @@ function serve() {
 
   return {
     writeBundle() {
-      child_process.spawn('npm', ['run', 'tailwind'], {
-        stdio: ['ignore', 'inherit', 'inherit'],
-        shell: true,
-      });
       if (server) return;
       const cmd = production ? 'build:api' : 'start:dev';
       server = child_process.spawn('npm', ['run', cmd], {
